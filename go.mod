@@ -2,7 +2,7 @@ module github.com/prometheus/prometheus
 
 go 1.21.0
 
-toolchain go1.22.5
+toolchain go1.22.7
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.13.0
@@ -18,7 +18,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.3.0
 	github.com/dennwc/varint v1.0.0
 	github.com/digitalocean/godo v1.118.0
-	github.com/docker/docker v27.0.3+incompatible
+	github.com/docker/docker v27.1.1+incompatible
 	github.com/edsrzf/mmap-go v1.1.0
 	github.com/envoyproxy/go-control-plane v0.12.0
 	github.com/envoyproxy/protoc-gen-validate v1.0.4
