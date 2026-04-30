@@ -22,8 +22,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/docker/docker/api/types/filters"
-	"github.com/docker/docker/client"
+	"github.com/moby/moby/client"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/common/config"
 	"github.com/prometheus/common/model"
@@ -120,7 +119,7 @@ type Discovery struct {
 	client  *client.Client
 	role    string
 	port    int
-	filters filters.Args
+	filters client.Filters
 }
 
 // NewDiscovery returns a new Discovery which periodically refreshes its targets.
@@ -142,10 +141,9 @@ func NewDiscovery(conf *DockerSwarmSDConfig, logger *slog.Logger, metrics discov
 
 	opts := []client.Opt{
 		client.WithHost(conf.Host),
-		client.WithAPIVersionNegotiation(),
 	}
 
-	d.filters = filters.NewArgs()
+	d.filters = make(client.Filters)
 	for _, f := range conf.Filters {
 		for _, v := range f.Values {
 			d.filters.Add(f.Name, v)
@@ -172,7 +170,7 @@ func NewDiscovery(conf *DockerSwarmSDConfig, logger *slog.Logger, metrics discov
 		)
 	}
 
-	d.client, err = client.NewClientWithOpts(opts...)
+	d.client, err = client.New(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("error setting up docker swarm client: %w", err)
 	}
